@@ -9,13 +9,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
         
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1
-      
+
     - name: Publish app
       run: msbuild -t:publish -p:Configuration=Release Public_Solution_test/OpenSilverApplication2/OpenSilverApplication2.Browser/OpenSilverApplication2.Browser.csproj
 
