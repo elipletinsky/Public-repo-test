@@ -17,7 +17,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1
 
     - name: Restore app
-      run: dotnet publish -c Release  Public_Solution_test\Public_Solution_test.sln
+      run: dotnet restore -c Release  Public_Solution_test\Public_Solution_test.sln
 
     - name: Publish app
       run: msbuild -t:publish -p:Configuration=Release Public_Solution_test/OpenSilverApplication2/OpenSilverApplication2.Browser/OpenSilverApplication2.Browser.csproj
