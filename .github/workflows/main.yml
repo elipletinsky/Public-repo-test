@@ -1,0 +1,32 @@
+name: DeployToGitHubPages
+env:
+  PUBLISH_DIR: Public_Solution_test/OpenSilverApplication2/OpenSilverApplication2.Browser/bin/Release/netstandard2.1/publish/wwwroot
+
+# Controls when the action will run
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Publish app
+      run: msbuild -t:publish -p:Configuration=Release Public_Solution_test/OpenSilverApplication2/OpenSilverApplication2.Browser/OpenSilverApplication2.Browser.csproj
+
+    - name: Rewrite base href
+      uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+      with:
+        html_path: ${{ env.PUBLISH_DIR }}/index.html
+        base_href: /Public-repo-test/
+
+    - name: GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v1.5.1
+      with:
+        target_branch: gh-pages
+        build_dir: ${{ env.PUBLISH_DIR }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
